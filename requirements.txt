@@ -1,0 +1,3 @@
+requests>=2.20.0
+# Standard library modules used by the script (no install required):
+# os, re, shutil, zipfile, json, traceback, argparse, collections, datetime
