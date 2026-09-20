@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minecraft-mod-updater"
+version = "2.0.0"
+description = "Fast, safe, and automated Minecraft mod updater powered by Modrinth."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "slogiker" }
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+update-mod = "mod_updater.cli:main"

@@ -1,3 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
 build/
+dist/
+*.egg-info/
+.eggs/
+
+# Spec / PyInstaller
 updater.spec
-.gitignore
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Updater runtime artifacts
+old mods*/
+.mods/
+debug.txt
+*.part

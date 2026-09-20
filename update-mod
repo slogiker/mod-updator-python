@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# update-mod: Linux command launcher for Minecraft Mod Updater
+# ==============================================================================
+
+set -e
+
+# Resolve symlinks to find actual installation directory
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+APP_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+# Detect Python interpreter
+PYTHON_BIN=""
+if [ -f "$APP_DIR/.venv/bin/python" ]; then
+    PYTHON_BIN="$APP_DIR/.venv/bin/python"
+elif command -v python3 >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python3)"
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v python)"
+else
+    echo -e "\033[31m[ERROR] Python 3 is required but was not found in your PATH.\033[0m"
+    echo "Please install Python 3 (e.g., sudo apt install python3 python3-pip)"
+    exit 1
+fi
+
+# Ensure requirements are satisfied
+if ! "$PYTHON_BIN" -c "import requests" >/dev/null 2>&1; then
+    echo -e "\033[33m[INFO] Missing required 'requests' module. Attempting to install...\033[0m"
+    if [ -f "$APP_DIR/requirements.txt" ]; then
+        "$PYTHON_BIN" -m pip install --quiet -r "$APP_DIR/requirements.txt" || {
+            echo -e "\033[31m[ERROR] Failed to install dependencies. Try running:\033[0m"
+            echo "pip install -r $APP_DIR/requirements.txt"
+            exit 1
+        }
+    fi
+fi
+
+# Run updater passing all command-line arguments
+export PYTHONPATH="$APP_DIR:$PYTHONPATH"
+exec "$PYTHON_BIN" -m mod_updater.cli "$@"

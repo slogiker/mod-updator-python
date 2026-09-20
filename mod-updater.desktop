@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Minecraft Mod Updater
+Comment=Update Minecraft mods automatically from Modrinth
+Exec=update-mod -i
+Terminal=true
+Categories=Game;Utility;
+Keywords=minecraft;mods;updater;modrinth;
